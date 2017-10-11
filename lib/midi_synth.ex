@@ -1,58 +1,33 @@
 defmodule MidiSynth do
   use GenServer
+  alias MidiSynth.Worker
 
   @moduledoc """
   Documentation for MidiSynth.
   """
 
-  defmodule State do
-    @moduledoc false
-    defstruct port: nil
-  end
-
   @doc """
-  Hello world.
+  Send a raw MIDI command to the synthesizer.
 
   ## Examples
 
-      iex> MidiSynth.hello
-      :world
+      iex> MidiSynth.midi(<<0x90, 60, 127>>)
+      :ok
 
   """
-  def hello do
-    :world
+  def midi(data) when is_binary(data) do
+    Worker.midi(MidiSynth.Worker, data)
   end
 
-  @spec start_link([term]) :: {:ok, pid}
-  def start_link(opts \\ []) do
-    GenServer.start_link(__MODULE__, [], opts)
-  end
+  @doc """
+  Play a note.
 
-  def midi(pid, data) when is_binary(data) do
-    GenServer.cast(pid, {:midi, data})
-  end
+  ## Examples
 
-  # gen_server callbacks
-  def init([]) do
-    priv_dir = :code.priv_dir(:midi_synth)
-    executable = priv_dir ++ '/midi_synth'
-
-    port =
-      Port.open({:spawn_executable, executable}, [
-        {:args, []},
-        :stream,
-        {:cd, priv_dir},
-        :use_stdio,
-        :binary,
-        :exit_status
-      ])
-
-    state = %State{port: port}
-    {:ok, state}
-  end
-
-  def handle_cast({:midi, data}, state) do
-    send(state.port, {self(), {:command, data}})
-    {:noreply, state}
+      iex> MidiSynth.play({60, 100})
+      :ok
+  """
+  def play({note, duration}) do
+    Worker.play(MidiSynth.Worker, {note, duration})
   end
 end
