@@ -131,6 +131,28 @@ static void handle_dispatch3(uint8_t data, void *cookie)
         parser.dispatch_cmd(parser.buffer);
 }
 
+static void handle_sysex_start(uint8_t data, void *cookie)
+{
+    (void) data;
+    (void) cookie;
+    parser.offset = 0;
+}
+
+static void handle_sysex_data(uint8_t data, void *cookie)
+{
+    (void) cookie;
+    if (parser.offset < sizeof(parser.buffer))
+        parser.buffer[parser.offset++] = data;
+}
+
+static void handle_sysex_end(uint8_t data, void *cookie)
+{
+    (void) data;
+    (void) cookie;
+
+    // TODO: do something with the sysex message
+}
+
 // These events are common to all MIDI stream processing states
 #define RESTART_EVENTS(STATE) \
     {STATE, 0xf0, 0x80, STATE_TRIPLE1, handle_start, dispatch_note_off}, \
@@ -140,7 +162,7 @@ static void handle_dispatch3(uint8_t data, void *cookie)
     {STATE, 0xf0, 0xc0, STATE_DOUBLE1, handle_start, dispatch_program_change}, \
     {STATE, 0xf0, 0xd0, STATE_DOUBLE1, handle_start, dispatch_channel_pressure}, \
     {STATE, 0xf0, 0xe0, STATE_TRIPLE1, handle_start, dispatch_pitch_wheel}, \
-    {STATE, 0xff, 0xf0, STATE_IDLE, NULL, NULL},   /* SysEx start */  \
+    {STATE, 0xff, 0xf0, STATE_SYSEX, handle_sysex_start, NULL}, \
     {STATE, 0xff, 0xf1, STATE_DOUBLE1, handle_start, NULL}, /* MIDI Timing code (1 data byte) */  \
     {STATE, 0xff, 0xf2, STATE_TRIPLE1, handle_start, NULL}, /* Song position pointer (2 data bytes) */  \
     {STATE, 0xff, 0xf3, STATE_DOUBLE1, handle_start, NULL}, /* Song select (1 data byte) */  \
@@ -165,6 +187,10 @@ static struct midi_event state_machine[] =
     RESTART_EVENTS(STATE_TRIPLE2),
 
     {STATE_DOUBLE1, 0x80, 0x00, STATE_IDLE, handle_dispatch2, NULL}, /* parameter 1 */
+    RESTART_EVENTS(STATE_DOUBLE1),
+
+    {STATE_SYSEX, 0x80, 0x00, STATE_SYSEX, handle_sysex_data, NULL},
+    {STATE_SYSEX, 0xff, 0xf7, STATE_IDLE, handle_sysex_end, NULL},
     RESTART_EVENTS(STATE_DOUBLE1),
 
     {STATE_COUNT, 0, 0, STATE_IDLE, NULL, NULL} /* Sentinal */
