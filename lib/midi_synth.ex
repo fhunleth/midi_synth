@@ -30,4 +30,11 @@ defmodule MidiSynth do
   def play({note, duration}) do
     Worker.play(MidiSynth.Worker, {note, duration})
   end
+
+  @doc """
+  Change the current program (e.g., the current instrument).
+  """
+  def change_program(prog) when prog > 0 and prog <= 128 do
+    midi(<<0xc0, prog - 1>>)
+  end
 end
