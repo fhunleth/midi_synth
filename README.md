@@ -4,9 +4,6 @@
 
 ## Installation
 
-This project uses [Git LFS](https://git-lfs.github.com/) so to install
-it first before cloning the repository.
-
 Eventually this project will be multiplatform, but right now it
 only runs on Linux w/ PulseAudio. If you're running Ubuntu or
 probably most other mainstream distributions, you should be ok.
