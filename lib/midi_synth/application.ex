@@ -9,7 +9,7 @@ defmodule MidiSynth.Application do
     # List all child processes to be supervised
     children = [
       # Starts a worker by calling: MidiSynth.Worker.start_link(arg)
-      {MidiSynth.Worker, [name: MidiSynth.Worker]},
+      {MidiSynth.Worker, [name: MidiSynth.Worker]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

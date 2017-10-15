@@ -15,7 +15,7 @@ defmodule MidiSynth.Mixfile do
       description: @description,
       package: package(),
       compilers: [:elixir_make] ++ Mix.compilers(),
-      start_permanent: Mix.env == :prod,
+      start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
   end
@@ -43,5 +43,4 @@ defmodule MidiSynth.Mixfile do
       links: %{"GitHub" => "https://github.com/fhunleth/midi_synth"}
     ]
   end
-
 end

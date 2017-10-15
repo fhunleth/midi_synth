@@ -50,6 +50,7 @@ defmodule MidiSynth.Worker do
     send_midi(state, data)
     {:noreply, state}
   end
+
   def handle_cast({:play, {note, duration}}, state) do
     send_midi(state, note_on(note, 127))
     Process.send_after(self(), {:midi, note_off(note)}, duration)

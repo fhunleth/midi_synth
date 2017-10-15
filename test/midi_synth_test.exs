@@ -6,6 +6,5 @@ defmodule MidiSynthTest do
     MidiSynth.midi(<<0x90, 60, 127>>)
     :timer.sleep(1000)
     MidiSynth.midi(<<0x80, 60, 127>>)
-
   end
 end
