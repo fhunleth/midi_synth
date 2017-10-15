@@ -8,15 +8,12 @@
 #include <errno.h>
 #include <assert.h>
 
-#define MIDI_STATUS_NOTE_OFF         0x80
-#define MIDI_STATUS_NOTE_ON          0x90
-#define MIDI_STATUS_AFTERTOUCH       0xa0
-#define MIDI_STATUS_CONTROL_CHANGE   0xb0
-#define MIDI_STATUS_PROGRAM_CHANGE   0xc0
-#define MIDI_STATUS_CHANNEL_PRESSURE 0xd0
-#define MIDI_STATUS_PITCH_WHEEL      0xe0
-#define MIDI_STATUS_SYSEX            0xf0
-#define MIDI_STATUS_END_SYSEX        0xf7
+//#define DEBUG
+#ifdef DEBUG
+#define debug(msg, ...) fprintf(stderr, msg "\r\n", __VA_ARGS__)
+#else
+#define debug(msg, ...)
+#endif
 
 enum midi_parser_state {
     STATE_IDLE = 0,
@@ -55,52 +52,73 @@ static fluid_synth_t *synth = NULL;
 
 static void dispatch_note_on(const uint8_t *buffer)
 {
+    debug("%d: note_on %d %d", buffer[0] & 0x0f, buffer[1], buffer[2]);
     fluid_synth_noteon(synth, buffer[0] & 0x0f, buffer[1], buffer[2]);
 }
 static void dispatch_note_off(const uint8_t *buffer)
 {
+    debug("%d: note_off %d", buffer[0] & 0x0f, buffer[1]);
     fluid_synth_noteoff(synth, buffer[0] & 0x0f, buffer[1]);
 }
 static void dispatch_aftertouch(const uint8_t *buffer)
 {
     (void) buffer;
-    // ???
+    debug("%d: aftertouch %d %d", buffer[0] & 0x0f, buffer[1], buffer[2]);
 }
 static void dispatch_control_change(const uint8_t *buffer)
 {
     switch (buffer[1]) {
+    case 0x00: // Bank select
+        debug("%d: bank select", buffer[0] & 0x0f);
+        break;
+    case 0x01: // Modulation wheel
+        debug("%d: modulation wheel %d", buffer[0] & 0x0f, buffer[2]);
+        break;
+    case 0x07: // Channel Volume
+        debug("%d: channel volume %d", buffer[0] & 0x0f, buffer[2]);
+        break;
     case 0x79: // Reset all controllers
+        debug("%d: fluid_synth_system_reset", buffer[0] & 0x0f);
         fluid_synth_system_reset(synth);
         break;
     case 0x7a: // Local control
+        debug("%d: local control", buffer[0] & 0x0f);
         break;
     case 0x7b: // All notes off
+        debug("%d: all notes off", buffer[0] & 0x0f);
         fluid_synth_all_notes_off(synth, buffer[0] & 0x0f);
         break;
     case 0x7c: // Omni mode off
+        debug("%d: Omni mode off", buffer[0] & 0x0f);
         break;
     case 0x7d: // Omni mode on
+        debug("%d: Omni mode on", buffer[0] & 0x0f);
         break;
     case 0x7e: // Mono mode on (Poly mode off)
+        debug("%d: Mono mode on (Poly mode off)", buffer[0] & 0x0f);
         break;
     case 0x7f: // Poly mode on (Mono mode off)
+        debug("%d: Poly mode on (Mono mode off)", buffer[0] & 0x0f);
         break;
     default:
-        // ???
+        debug("%d: Unknown control change: %02x %02x", buffer[0] & 0x0f, buffer[1], buffer[2]);
         break;
     }
 }
 static void dispatch_program_change(const uint8_t *buffer)
 {
+    debug("%d: fluid_synth_program_change %d", buffer[0] & 0x0f, buffer[1]);
     fluid_synth_program_change(synth, buffer[0] & 0x0f, buffer[1]);
 }
 static void dispatch_channel_pressure(const uint8_t *buffer)
 {
+    debug("%d: fluid_synth_channel_pressure %d", buffer[0] & 0x0f, buffer[1]);
     fluid_synth_channel_pressure(synth, buffer[0] & 0x0f, buffer[1]);
 }
 static void dispatch_pitch_wheel(const uint8_t *buffer)
 {
-    fluid_synth_pitch_wheel_sens(synth, buffer[0] & 0x0f, (buffer[1] << 8) | buffer[2]);
+    debug("%d: fluid_synth_pitch_bend %d (%02x %02x)", buffer[0] & 0x0f, (buffer[2] << 7) | buffer[1], buffer[1], buffer[2]);
+    fluid_synth_pitch_bend(synth, buffer[0] & 0x0f, (buffer[2] << 7) | buffer[1]);
 }
 
 static void handle_start(uint8_t data, void *cookie)
