@@ -15,6 +15,10 @@
 #define debug(msg, ...)
 #endif
 
+#if defined (__linux__)
+#define OVERRIDE_AUDIO_DRIVER "pulseaudio"
+#endif
+
 enum midi_parser_state {
     STATE_IDLE = 0,
     STATE_TRIPLE1,  /* Waiting for parameter one of a 3-byte MIDI command */
@@ -247,16 +251,24 @@ static void process_midi_byte(uint8_t data)
     }
 }
 
-int main (int argc, char* argv[])
+int main(int argc, char *argv[])
 {
     fluid_settings_t *settings = new_fluid_settings ();
-
-    /* create the synth, driver and sequencer instances */
     synth = new_fluid_synth(settings);
-    fluid_settings_setstr(settings, "audio.driver", "pulseaudio");
+
+    if (argc > 1) {
+        // The first argument is the audio driver to use. 
+        fluid_settings_setstr(settings, "audio.driver", argv[1]);
+    } else {
+        // If the audio driver isn't specified, then use Fluidsynth's default or
+        // the default that we want.
+#ifdef OVERRIDE_AUDIO_DRIVER
+        fluid_settings_setstr(settings, "audio.driver", OVERRIDE_AUDIO_DRIVER);
+#endif
+    }
+
     fluid_audio_driver_t *audiodriver = new_fluid_audio_driver (settings, synth);
 
-    /* load a SoundFont */
     if (fluid_synth_sfload (synth, "FluidR3_GM.sf2", 1) < 0)
         errx(EXIT_FAILURE, "fluid_synth_sfload");
 
