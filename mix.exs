@@ -38,6 +38,15 @@ defmodule MidiSynth.MixProject do
 
   defp package() do
     [
+      files: [
+        "lib",
+        "src/*.[ch]",
+        "mix.exs",
+        "README.md",
+        "LICENSE",
+        "Makefile",
+        "priv/FluidR3_GM.sf2"
+      ],
       maintainers: ["Frank Hunleth"],
       licenses: ["Apache-2.0"],
       links: %{"GitHub" => "https://github.com/fhunleth/midi_synth"}

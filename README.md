@@ -57,3 +57,7 @@ iex> MidiSynth.midi(<<0x90, 60, 127>>)
 iex> MidiSynth.midi(<<0x80, 60, 127>>)
 ```
 
+## License
+
+The Elixir and C code is covered by the Apache 2 License. The `FluidR3_GM.sf2`
+file has the Creative Commons License.
