@@ -1,5 +1,4 @@
 defmodule MidiSynth do
-  use GenServer
   alias MidiSynth.Worker
 
   @moduledoc """
