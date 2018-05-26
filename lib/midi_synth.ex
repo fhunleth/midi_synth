@@ -2,7 +2,7 @@ defmodule MidiSynth do
   alias MidiSynth.Worker
 
   @moduledoc """
-  Documentation for MidiSynth.
+  Play music in Elixir!
   """
 
   @doc """
@@ -23,10 +23,10 @@ defmodule MidiSynth do
 
   ## Examples
 
-      iex> MidiSynth.play({60, 100})
+      iex> MidiSynth.play(60, 100)
       :ok
   """
-  def play({note, duration}) do
+  def play(note, duration) do
     Worker.play(MidiSynth.Worker, {note, duration})
   end
 
