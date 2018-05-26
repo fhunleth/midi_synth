@@ -35,6 +35,6 @@ defmodule MidiSynth do
   Change the current program (e.g., the current instrument).
   """
   def change_program(prog) when prog > 0 and prog <= 128 do
-    midi(<<0xc0, prog - 1>>)
+    midi(<<0xC0, prog - 1>>)
   end
 end

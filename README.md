@@ -1,6 +1,6 @@
 # MidiSynth
 
-**TODO: Add description**
+Play music in Elixir.
 
 ## Installation
 

@@ -1,4 +1,4 @@
-defmodule MidiSynth.Mixfile do
+defmodule MidiSynth.MixProject do
   use Mix.Project
 
   @version "0.1.0"
@@ -11,10 +11,10 @@ defmodule MidiSynth.Mixfile do
     [
       app: :midi_synth,
       version: @version,
-      elixir: "~> 1.5",
+      elixir: "~> 1.6",
       description: @description,
       package: package(),
-      compilers: [:elixir_make] ++ Mix.compilers(),
+      compilers: [:elixir_make | Mix.compilers()],
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
