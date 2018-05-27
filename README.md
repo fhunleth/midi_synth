@@ -19,17 +19,17 @@ On OSX:
 brew install fluidsynth
 ```
 
-The next step is to download a SoundFont file. You most likely will want one
-that supports the [General MIDI](https://en.wikipedia.org/wiki/General_MIDI)
-instruments to start. `FluidR3_GM.sf2` is a Creative Commons-licensed file that
-works well. It's quite large so it can't be included with `midi_synth`. The best
-way to find it appears to be to Google for a link or if you're on Linux to
-install `fluid-soundfont-gm`.
+The next step is to download a SoundFont file. I recommend starting with
+`FluidR3_GM.sf2` since it supports the [General
+MIDI](https://en.wikipedia.org/wiki/General_MIDI) instruments. It is Creative
+Commons-licensed but too large to be bundled with `midi_synth` (Some help here
+to make this easier would be great!).  The best way to find it appears to be to
+Google for a link or if you're on Linux to install `fluid-soundfont-gm`.
 
 Next, clone the project and build it the normal Elixir ways:
 
 ```sh
-git clone https://fhunleth@bitbucket.org/fhunleth/midi_synth.git
+git clone https://github.com/fhunleth/midi_synth.git
 cd midi_synth
 mix deps.get
 # Copy the sf2 file to the priv directory
