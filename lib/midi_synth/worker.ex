@@ -2,13 +2,13 @@ defmodule MidiSynth.Worker do
   require Logger
   use GenServer
 
-  @moduledoc """
-  Documentation for MidiSynth.Worker.
+  @moduledoc !"""
+  Maintain the port process.
   """
 
   defmodule State do
     @moduledoc false
-    defstruct port: nil, tempo: 120
+    defstruct port: nil
   end
 
   @spec start_link([term]) :: {:ok, pid}
@@ -28,15 +28,17 @@ defmodule MidiSynth.Worker do
   end
 
   # gen_server callbacks
-  def init([]) do
-    priv_dir = :code.priv_dir(:midi_synth)
-    executable = priv_dir ++ '/midi_synth'
+  def init(_args) do
+    executable = :code.priv_dir(:midi_synth) ++ '/midi_synth'
+    soundfont_path = Application.get_env(:midi_synth, :soundfont, default_soundfont())
+    if soundfont_path == nil do
+      raise "Please download and install FluidR3_GM.sf2.\nSee https://sourceforge.net/p/fluidsynth/wiki/GettingStarted/\n. Then add the install path to your config. See README.md."
+    end
 
     port =
       Port.open({:spawn_executable, executable}, [
-        {:args, []},
+        {:args, [soundfont_path]},
         :stream,
-        {:cd, priv_dir},
         :use_stdio,
         :binary,
         :exit_status
@@ -69,4 +71,14 @@ defmodule MidiSynth.Worker do
 
   defp note_on(note, velocity), do: <<0x90, note, velocity>>
   defp note_off(note), do: <<0x80, note, 64>>
+
+  defp default_soundfont() do
+    locations = ["/usr/share/sounds/sf2/FluidR3_GM.sf2",
+                 Application.app_dir(:midi_synth, "priv/FluidR3_GM.sf2")]
+
+    locations
+    |> Enum.find(&File.exists?/1)
+  end
+
+
 end

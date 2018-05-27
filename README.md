@@ -4,8 +4,10 @@ Play music in Elixir.
 
 ## Installation
 
-This project requires [FluidSynth](http://www.fluidsynth.org/) to play notes.
-First install it.
+This project requires [FluidSynth](http://www.fluidsynth.org/) and a SoundFont
+file to work.
+
+First install FluidSynth:
 
 On Linux:
 ```sh
@@ -17,14 +19,27 @@ On OSX:
 brew install fluidsynth
 ```
 
+The next step is to download a SoundFont file. You most likely will want one
+that supports the [General MIDI](https://en.wikipedia.org/wiki/General_MIDI)
+instruments to start. `FluidR3_GM.sf2` is a Creative Commons-licensed file that
+works well. It's quite large so it can't be included with `midi_synth`. The best
+way to find it appears to be to Google for a link or if you're on Linux to
+install `fluid-soundfont-gm`.
+
 Next, clone the project and build it the normal Elixir ways:
 
 ```sh
 git clone https://fhunleth@bitbucket.org/fhunleth/midi_synth.git
 cd midi_synth
 mix deps.get
-mix compile
+# Copy the sf2 file to the priv directory
+cp <path_to>FluidR3_GM.sf2 priv
+mix test
 ```
+
+Copying the soundfont file to `priv` isn't necessary. You can also specify its
+path in your `config.exs` (see `config/config.exs` in this project) or let
+`midi_synth` guess its location.
 
 ## Try it out using IEx
 
@@ -45,9 +60,6 @@ iex> MidiSynth.change_program(57)
 iex> MidiSynth.play(60, 500)
 ```
 
-MidiSynth currently comes with the General MIDI set of instruments. A full list
-is at [wikipedia/General_MIDI](https://en.wikipedia.org/wiki/General_MIDI).
-
 The current value of this library is the port process that interfaces with the
 FluidSynth library. The Elixir code barely scratches the surface with what's
 possible. If you're comfortable with raw MIDI commands, try this out:
@@ -59,5 +71,4 @@ iex> MidiSynth.midi(<<0x80, 60, 127>>)
 
 ## License
 
-The Elixir and C code is covered by the Apache 2 License. The `FluidR3_GM.sf2`
-file has the Creative Commons License.
+The Elixir and C code is covered by the Apache 2 License.

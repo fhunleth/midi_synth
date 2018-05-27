@@ -44,8 +44,7 @@ defmodule MidiSynth.MixProject do
         "mix.exs",
         "README.md",
         "LICENSE",
-        "Makefile",
-        "priv/FluidR3_GM.sf2"
+        "Makefile"
       ],
       maintainers: ["Frank Hunleth"],
       licenses: ["Apache-2.0"],

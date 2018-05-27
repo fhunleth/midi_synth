@@ -25,3 +25,6 @@ midi_synth-*.tar
 # Build products
 /src/*.o
 /priv/midi_synth
+
+# GM2 MIDI files
+/priv/*.sf2

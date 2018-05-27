@@ -215,7 +215,7 @@ static struct midi_event state_machine[] =
     {STATE_SYSEX, 0xff, 0xf7, STATE_IDLE, handle_sysex_end, NULL},
     RESTART_EVENTS(STATE_DOUBLE1),
 
-    {STATE_COUNT, 0, 0, STATE_IDLE, NULL, NULL} /* Sentinal */
+    {STATE_COUNT, 0, 0, STATE_IDLE, NULL, NULL} /* Sentinel */
 };
 
 static void init_parser()
@@ -256,9 +256,12 @@ int main(int argc, char *argv[])
     fluid_settings_t *settings = new_fluid_settings ();
     synth = new_fluid_synth(settings);
 
-    if (argc > 1) {
-        // The first argument is the audio driver to use. 
-        fluid_settings_setstr(settings, "audio.driver", argv[1]);
+    if (argc < 2)
+        errx(EXIT_FAILURE, "midi_synth <soundfont path> [audio driver]");
+
+    if (argc > 2) {
+        // The second argument is the audio driver to use.
+        fluid_settings_setstr(settings, "audio.driver", argv[2]);
     } else {
         // If the audio driver isn't specified, then use Fluidsynth's default or
         // the default that we want.
@@ -269,8 +272,8 @@ int main(int argc, char *argv[])
 
     fluid_audio_driver_t *audiodriver = new_fluid_audio_driver (settings, synth);
 
-    if (fluid_synth_sfload (synth, "FluidR3_GM.sf2", 1) < 0)
-        errx(EXIT_FAILURE, "fluid_synth_sfload");
+    if (fluid_synth_sfload (synth, argv[1], 1) < 0)
+        errx(EXIT_FAILURE, "fluid_synth_sfload(%s)", argv[1]);
 
     init_parser();
 
