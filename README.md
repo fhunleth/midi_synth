@@ -11,7 +11,7 @@ First install FluidSynth:
 
 On Linux:
 ```sh
-sudo apt install libfluidsynth-dev
+sudo apt install libfluidsynth-dev fluid-soundfont-gm
 ```
 
 On OSX:
@@ -32,7 +32,7 @@ Next, clone the project and build it the normal Elixir ways:
 git clone https://github.com/fhunleth/midi_synth.git
 cd midi_synth
 mix deps.get
-# Copy the sf2 file to the priv directory
+# Copy the sf2 file to the priv directory. If on Linux, you can skip this.
 cp <path_to>FluidR3_GM.sf2 priv
 mix test
 ```
