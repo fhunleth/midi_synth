@@ -15,6 +15,8 @@ defmodule MidiSynth.MixProject do
       description: @description,
       package: package(),
       compilers: [:elixir_make | Mix.compilers()],
+      make_clean: ["clean"],
+      docs: [extras: ["README.md"], main: "readme"],
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
