@@ -45,14 +45,14 @@ path in your `config.exs` (see `config/config.exs` in this project) or let
 
 Start IEx by running `iex -S mix` from a shell prompt.
 
-Now try playing a node. Notes are numbered sequentially with middle C being 60.
+Now try playing a node. Notes are numbered sequentially. Middle C is note 60.
 Here's how to play middle C for 100 ms.
 
 ```elixir
 iex> MidiSynth.play(60, 100)
 ```
 
-If you don't like the piano, switch the instrument to something else. For
+If you don't like the piano, try switching the instrument to something else. For
 example, trumpets (General MIDI instrument 57) are nice:
 
 ```elixir
@@ -60,9 +60,11 @@ iex> MidiSynth.change_program(57)
 iex> MidiSynth.play(60, 500)
 ```
 
-The current value of this library is the port process that interfaces with the
-FluidSynth library. The Elixir code barely scratches the surface with what's
-possible. If you're comfortable with raw MIDI commands, try this out:
+The real value of this library is the port process that interfaces with the
+FluidSynth library. The Elixir code barely scratches the surface of what's
+possible. If you're comfortable with raw [MIDI
+commands](https://www.midi.org/specifications/item/table-1-summary-of-midi-message),
+try this out:
 
 ```elixir
 iex> MidiSynth.midi(<<0x90, 60, 127>>)
