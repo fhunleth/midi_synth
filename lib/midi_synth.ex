@@ -25,9 +25,12 @@ defmodule MidiSynth do
 
       iex> MidiSynth.play(60, 100)
       :ok
+
+      iex> MidiSynth.play(60, 100, 80)
+      :ok
   """
-  def play(note, duration) do
-    Worker.play(MidiSynth.Worker, {note, duration})
+  def play(note, duration, velocity \\ 127) do
+    Worker.play(MidiSynth.Worker, {note, duration, velocity})
   end
 
   @doc """
