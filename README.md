@@ -52,11 +52,17 @@ only option. You can also specify its path in your `config.exs` (see
 
 Start IEx by running `iex -S mix` from a shell prompt.
 
-Now try playing a node. Notes are numbered sequentially. Middle C is note 60.
+Now try playing a note. Notes are numbered sequentially. Middle C is note 60.
 Here's how to play middle C for 100 ms.
 
 ```elixir
 iex> MidiSynth.play(60, 100)
+```
+
+You can play the same note with a different velocity. The velocities range from 1 to 127. Here's how to play middle C for 100 ms with velocity mezzo-forte: 80.
+
+```elixir
+iex> MidiSynth.play(60, 100, 80)
 ```
 
 If you don't like the piano, try switching the instrument to something else. For

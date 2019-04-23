@@ -23,8 +23,11 @@ defmodule MidiSynth.Worker do
     GenServer.cast(pid, {:midi, data})
   end
 
-  def play(pid, {note, duration}) when is_integer(note) and is_integer(duration) do
-    GenServer.cast(pid, {:play, {note, duration}})
+  def play(pid, {note, duration, velocity})
+      when is_integer(note) and
+             is_integer(duration) and
+             is_integer(velocity) do
+    GenServer.cast(pid, {:play, {note, duration, velocity}})
   end
 
   # gen_server callbacks
@@ -54,10 +57,9 @@ defmodule MidiSynth.Worker do
     {:noreply, state}
   end
 
-  def handle_cast({:play, {note, duration}}, state) do
-    send_midi(state, note_on(note, 127))
+  def handle_cast({:play, {note, duration, velocity}}, state) do
+    send_midi(state, note_on(note, velocity))
     Process.send_after(self(), {:midi, note_off(note)}, duration)
-
     {:noreply, state}
   end
 
