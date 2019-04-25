@@ -3,8 +3,6 @@ jobs:
   build:
     docker:
       - image: circleci/elixir:1.8
-        environment:
-          MIX_ENV: test
 
     working_directory: ~/repo
     steps:
