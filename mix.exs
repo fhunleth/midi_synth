@@ -3,9 +3,7 @@ defmodule MidiSynth.MixProject do
 
   @version "0.1.0"
 
-  @description """
-  MIDI synthesizer for Elixir.
-  """
+  @description "MIDI synthesizer for Elixir"
 
   def project do
     [
@@ -15,26 +13,22 @@ defmodule MidiSynth.MixProject do
       description: @description,
       package: package(),
       compilers: [:elixir_make | Mix.compilers()],
+      aliases: [format: ["format", &format_c/1]],
       make_clean: ["clean"],
       docs: [extras: ["README.md"], main: "readme"],
       start_permanent: Mix.env() == :prod,
+      build_embedded: true,
+      dialyzer: [
+        flags: [:unmatched_returns, :error_handling, :race_conditions, :underspecs]
+      ],
       deps: deps()
     ]
   end
 
-  # Run "mix help compile.app" to learn about applications.
   def application do
     [
       extra_applications: [:logger],
       mod: {MidiSynth.Application, []}
-    ]
-  end
-
-  # Run "mix help deps" to learn about dependencies.
-  defp deps do
-    [
-      {:elixir_make, "~> 0.4", runtime: false},
-      {:ex_doc, "~> 0.11", only: :dev}
     ]
   end
 
@@ -48,9 +42,28 @@ defmodule MidiSynth.MixProject do
         "LICENSE",
         "Makefile"
       ],
-      maintainers: ["Frank Hunleth"],
       licenses: ["Apache-2.0"],
       links: %{"GitHub" => "https://github.com/fhunleth/midi_synth"}
     ]
   end
+
+  defp deps do
+    [
+      {:elixir_make, "~> 0.5", runtime: false},
+      {:ex_doc, "~> 0.11", only: :dev, runtime: false},
+      {:dialyxir, "1.0.0-rc.6", only: :dev, runtime: false}
+    ]
+  end
+
+  defp format_c([]) do
+    astyle =
+      System.find_executable("astyle") ||
+        Mix.raise("""
+        Could not format C code since astyle is not available.
+        """)
+
+    System.cmd(astyle, ["-n", "src/*.c"], into: IO.stream(:stdio, :line))
+  end
+
+  defp format_c(_args), do: true
 end
