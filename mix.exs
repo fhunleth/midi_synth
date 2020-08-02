@@ -18,9 +18,7 @@ defmodule MidiSynth.MixProject do
       docs: [extras: ["README.md"], main: "readme"],
       start_permanent: Mix.env() == :prod,
       build_embedded: true,
-      dialyzer: [
-        flags: [:unmatched_returns, :error_handling, :race_conditions, :underspecs]
-      ],
+      dialyzer: dialyzer(),
       deps: deps()
     ]
   end
@@ -51,7 +49,13 @@ defmodule MidiSynth.MixProject do
     [
       {:elixir_make, "~> 0.5", runtime: false},
       {:ex_doc, "~> 0.11", only: :dev, runtime: false},
-      {:dialyxir, "1.0.0-rc.6", only: :dev, runtime: false}
+      {:dialyxir, "1.0.0", only: :dev, runtime: false}
+    ]
+  end
+
+  defp dialyzer() do
+    [
+      flags: [:race_conditions, :unmatched_returns, :error_handling, :underspecs]
     ]
   end
 
