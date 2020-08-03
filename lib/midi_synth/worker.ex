@@ -1,10 +1,8 @@
 defmodule MidiSynth.Worker do
-  require Logger
   use GenServer
+  require Logger
 
-  @moduledoc !"""
-             Maintain the port process.
-             """
+  @moduledoc false
 
   defmodule State do
     @moduledoc false
@@ -19,10 +17,12 @@ defmodule MidiSynth.Worker do
   @doc """
   Run a raw MIDI command.
   """
+  @spec midi(GenServer.server(), binary()) :: :ok
   def midi(pid, data) when is_binary(data) do
     GenServer.cast(pid, {:midi, data})
   end
 
+  @spec play(GenServer.server(), {non_neg_integer(), non_neg_integer(), non_neg_integer()}) :: :ok
   def play(pid, {note, duration, velocity})
       when is_integer(note) and
              is_integer(duration) and
@@ -30,7 +30,7 @@ defmodule MidiSynth.Worker do
     GenServer.cast(pid, {:play, {note, duration, velocity}})
   end
 
-  # gen_server callbacks
+  @impl GenServer
   def init(_args) do
     executable = :code.priv_dir(:midi_synth) ++ '/midi_synth'
     soundfont_path = Application.get_env(:midi_synth, :soundfont, default_soundfont())
@@ -52,6 +52,7 @@ defmodule MidiSynth.Worker do
     {:ok, state}
   end
 
+  @impl GenServer
   def handle_cast({:midi, data}, state) do
     send_midi(state, data)
     {:noreply, state}
@@ -63,6 +64,7 @@ defmodule MidiSynth.Worker do
     {:noreply, state}
   end
 
+  @impl GenServer
   def handle_info({:midi, data}, state) do
     send_midi(state, data)
     {:noreply, state}
@@ -77,8 +79,8 @@ defmodule MidiSynth.Worker do
 
   defp default_soundfont() do
     locations = [
-      "/usr/share/sounds/sf2/FluidR3_GM.sf2",
-      Application.app_dir(:midi_synth, "priv/FluidR3_GM.sf2")
+      Application.app_dir(:midi_synth, "priv/FluidR3_GM.sf2"),
+      "/usr/share/sounds/sf2/FluidR3_GM.sf2"
     ]
 
     locations
