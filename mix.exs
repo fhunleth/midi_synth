@@ -12,6 +12,7 @@ defmodule MidiSynth.MixProject do
       package: package(),
       compilers: [:elixir_make | Mix.compilers()],
       aliases: [format: ["format", &format_c/1]],
+      make_targets: ["all"],
       make_clean: ["clean"],
       docs: docs(),
       description: description(),
@@ -43,10 +44,12 @@ defmodule MidiSynth.MixProject do
       files: [
         "lib",
         "src/*.[ch]",
+        "src/Makefile",
+        "Makefile",
         "mix.exs",
         "README.md",
         "LICENSE",
-        "Makefile"
+        "CHANGELOG.md"
       ],
       licenses: ["Apache-2.0"],
       links: %{"GitHub" => @source_url}
@@ -55,7 +58,7 @@ defmodule MidiSynth.MixProject do
 
   defp deps do
     [
-      {:elixir_make, "~> 0.5", runtime: false},
+      {:elixir_make, "~> 0.6", runtime: false},
       {:ex_doc, "~> 0.22", only: :docs, runtime: false},
       {:dialyxir, "1.0.0", only: :dev, runtime: false}
     ]

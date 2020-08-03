@@ -22,9 +22,5 @@ erl_crash.dump
 # Ignore package tarball (built via "mix hex.build").
 midi_synth-*.tar
 
-# Build products
-/src/*.o
-/priv/midi_synth
-
 # GM2 MIDI files
-/priv/*.sf2
+src/FluidR3_GM.sf2

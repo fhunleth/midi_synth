@@ -10,33 +10,25 @@ First, clone the project:
 git clone https://github.com/fhunleth/midi_synth.git
 ```
 
-Next, install [FluidSynth](http://www.fluidsynth.org/) and a SoundFont file that
-supports [General MIDI](https://en.wikipedia.org/wiki/General_MIDI) instruments.
-I recommend starting with `FluidR3_GM.sf2` which has a complete set of
-instruments and is Creative Commons-licensed.
+Next, install [FluidSynth](http://www.fluidsynth.org/).
 
 On Linux:
 
 ```sh
-sudo apt install libfluidsynth-dev fluid-soundfont-gm
-# The SoundFont file will be in /usr/share/sounds/sf2/FluidR3_GM.sf2. MidiSynth
-# will find it.
+sudo apt install libfluidsynth-dev
 ```
 
 On OSX:
 
 ```sh
 brew install fluidsynth
-
-# Install FluidR3_GM.sf2 to the priv directory in midi_synth. (I'd like to
-# improve this, but this will work for trying midi_synth out)
-cd midi_synth
-mkdir priv
-cd priv
-curl -LO https://github.com/fhunleth/midi_synth/releases/download/v0.1.0/FluidR3_GM.sf2
 ```
 
-Next, build the project the normal Elixir way:
+Next, build the project the normal Elixir way. The first build will download the
+`FluidR3_GM.sf2` soundfont file. This is a Creative Commons-licensed data file
+that contains all of the [General
+MIDI](https://en.wikipedia.org/wiki/General_MIDI) instruments. It is a good
+place to start, but can be changed later on.
 
 ```sh
 cd midi_synth
@@ -44,9 +36,7 @@ mix deps.get
 mix test
 ```
 
-FYI: Copying the soundfont file to `priv` or using Debian's install location isn't the
-only option. You can also specify its path in your `config.exs` (see
-`config/config.exs` in this project) or let `midi_synth` guess its location.
+If it works, `mix test` should play a short song.
 
 ## Try it out using IEx
 
