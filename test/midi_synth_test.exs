@@ -3,24 +3,20 @@ defmodule MidiSynthTest do
   doctest MidiSynth
 
   test "playing raw midi strings" do
-    MidiSynth.midi(<<0x90, 60, 127>>)
+    synth = start_supervised!(MidiSynth)
+    MidiSynth.midi(synth, <<0x90, 60, 127>>)
     Process.sleep(250)
-    MidiSynth.midi(<<0x80, 60, 127>>)
+    MidiSynth.midi(synth, <<0x80, 60, 127>>)
   end
 
-  test "playing notes" do
-    MidiSynth.change_program(57)
-    MidiSynth.play(60, 250)
-    Process.sleep(250)
-    MidiSynth.play(67, 250)
-    Process.sleep(250)
-    MidiSynth.play(72, 250)
-    Process.sleep(250)
-    MidiSynth.play(76, 400)
-    Process.sleep(500)
-    MidiSynth.play(72, 250)
-    Process.sleep(250)
-    MidiSynth.play(76, 1000)
-    Process.sleep(1000)
-  end
+  # test "playing notes" do
+  #   synth = start_supervised!(MidiSynth)
+  #   MidiSynth.change_program(synth, 57)
+  #   MidiSynth.play(synth, 60, 250)
+  #   MidiSynth.play(synth, 67, 250)
+  #   MidiSynth.play(synth, 72, 250)
+  #   MidiSynth.play(synth, 76, 400)
+  #   MidiSynth.play(synth, 72, 250)
+  #   MidiSynth.play(synth, 76, 500)
+  # end
 end

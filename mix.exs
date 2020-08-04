@@ -30,8 +30,7 @@ defmodule MidiSynth.MixProject do
 
   def application do
     [
-      extra_applications: [:logger],
-      mod: {MidiSynth.Application, []}
+      extra_applications: [:logger]
     ]
   end
 
