@@ -1,5 +1,7 @@
 defmodule MidiSynthTest do
   use ExUnit.Case
+
+  import ExUnit.CaptureLog
   doctest MidiSynth
 
   test "playing raw midi strings" do
@@ -9,14 +11,15 @@ defmodule MidiSynthTest do
     MidiSynth.midi(synth, <<0x80, 60, 127>>)
   end
 
-  # test "playing notes" do
-  #   synth = start_supervised!(MidiSynth)
-  #   MidiSynth.change_program(synth, 57)
-  #   MidiSynth.play(synth, 60, 250)
-  #   MidiSynth.play(synth, 67, 250)
-  #   MidiSynth.play(synth, 72, 250)
-  #   MidiSynth.play(synth, 76, 400)
-  #   MidiSynth.play(synth, 72, 250)
-  #   MidiSynth.play(synth, 76, 500)
-  # end
+  test "MidiSynth exits when port crashes" do
+    Process.flag(:trap_exit, true)
+
+    capture_log(fn ->
+      {:ok, synth} = MidiSynth.start_link([])
+      System.cmd("killall", ["midi_synth"])
+
+      assert_receive {:EXIT, ^synth, message}
+      assert message =~ "unexpected exit"
+    end)
+  end
 end

@@ -59,6 +59,11 @@ defmodule MidiSynth do
     {:noreply, port}
   end
 
+  @impl GenServer
+  def handle_info({port, {:exit_status, status}}, port) do
+    {:stop, "midi_synth unexpected exited with status #{status}", nil}
+  end
+
   defp validate_soundfont(args) do
     soundfont_path =
       Keyword.get(args, :soundfont, Application.app_dir(:midi_synth, ["priv", "FluidR3_GM.sf2"]))
