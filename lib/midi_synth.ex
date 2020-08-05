@@ -72,7 +72,7 @@ defmodule MidiSynth do
       Keyword.put(args, :soundfont, soundfont_path)
     else
       raise ArgumentError,
-            "Please download and install FluidR3_GM.sf2.\nSee https://sourceforge.net/p/fluidsynth/wiki/GettingStarted/\n. Then add the install path to your config. See README.md."
+            "Could not find '#{soundfont_path}'.\nCheck the `:soundfont` option to MidiSynth.start_link/2."
     end
   end
 end
