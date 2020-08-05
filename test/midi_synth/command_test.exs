@@ -1,7 +1,7 @@
-defmodule MidiSynth.CommandTest do
+defmodule MIDISynth.CommandTest do
   use ExUnit.Case
 
-  alias MidiSynth.Command
+  alias MIDISynth.Command
   doctest Command
 
   test "note on" do

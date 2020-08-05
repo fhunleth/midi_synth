@@ -1,4 +1,4 @@
-defmodule MidiSynth do
+defmodule MIDISynth do
   use GenServer
 
   @moduledoc """
@@ -21,13 +21,13 @@ defmodule MidiSynth do
   @doc """
   Send a raw MIDI command to the synthesizer
 
-  See `MidiSynth.Command` for encoding MIDI commands and `MidiSynth.Keyboard`
+  See `MIDISynth.Command` for encoding MIDI commands and `MIDISynth.Keyboard`
   for playing simple songs.
 
   ## Examples
 
-    iex> {:ok, synth} = MidiSynth.start_link([])
-    iex> MidiSynth.midi(synth, <<0x90, 60, 127>>)
+    iex> {:ok, synth} = MIDISynth.start_link([])
+    iex> MIDISynth.midi(synth, <<0x90, 60, 127>>)
     :ok
 
   """
@@ -72,7 +72,7 @@ defmodule MidiSynth do
       Keyword.put(args, :soundfont, soundfont_path)
     else
       raise ArgumentError,
-            "Could not find '#{soundfont_path}'.\nCheck the `:soundfont` option to MidiSynth.start_link/2."
+            "Could not find '#{soundfont_path}'.\nCheck the `:soundfont` option to MIDISynth.start_link/2."
     end
   end
 end

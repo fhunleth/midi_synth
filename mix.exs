@@ -1,4 +1,4 @@
-defmodule MidiSynth.MixProject do
+defmodule MIDISynth.MixProject do
   use Mix.Project
 
   @version "0.2.0"

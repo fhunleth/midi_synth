@@ -1,4 +1,4 @@
-defmodule MidiSynth.Command do
+defmodule MIDISynth.Command do
   @moduledoc """
   Convert MIDI commands to raw bytes
   """

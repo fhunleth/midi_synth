@@ -1,4 +1,4 @@
-# MidiSynth
+# MIDISynth
 
 Play music in Elixir.
 
@@ -35,7 +35,7 @@ place to start, but can be changed later on.
 
 Start IEx by running `iex -S mix` from a shell prompt.
 
-`MidiSynth` is a `GenServer` and must be started first. The library comes with
+`MIDISynth` is a `GenServer` and must be started first. The library comes with
 with helpers to make playing simple things easy. For more complicated uses,
 you'll want to build on this library.
 
@@ -43,16 +43,16 @@ OK, let's play a note. Notes are numbered sequentially. Middle C is note 60.
 Here's how to play middle C for 100 ms.
 
 ```elixir
-iex> {:ok, synth} = MidiSynth.start_link([])
+iex> {:ok, synth} = MIDISynth.start_link([])
 {:ok, #PID<0.226.0>}
-iex> MidiSynth.Keyboard.play(synth, 60, 100)
+iex> MIDISynth.Keyboard.play(synth, 60, 100)
 ```
 
 You can play the same note with a different velocity. The velocities range from
 1 to 127. Here's how to play middle C for 100 ms with velocity mezzo-forte: 80.
 
 ```elixir
-iex> MidiSynth.Keyboard.play(synth, 60, 100, 80)
+iex> MIDISynth.Keyboard.play(synth, 60, 100, 80)
 ```
 
 If you don't like the piano, try switching the instrument to something else. For
@@ -61,8 +61,8 @@ instrument](https://www.midi.org/specifications-old/item/gm-level-1-sound-set)
 57) are nice:
 
 ```elixir
-iex> MidiSynth.Keyboard.change_program(synth, 57)
-iex> MidiSynth.Keyboard.play(synth, 60, 500)
+iex> MIDISynth.Keyboard.change_program(synth, 57)
+iex> MIDISynth.Keyboard.play(synth, 60, 500)
 ```
 
 The real value of this library is the ability to send raw MIDI messages to the
@@ -72,11 +72,11 @@ commands](https://www.midi.org/specifications/item/table-1-summary-of-midi-messa
 try this out:
 
 ```elixir
-iex> MidiSynth.midi(<<0x90, 60, 127>>)
-iex> MidiSynth.midi(<<0x80, 60, 127>>)
+iex> MIDISynth.midi(<<0x90, 60, 127>>)
+iex> MIDISynth.midi(<<0x80, 60, 127>>)
 ```
 
-See `MidiSynth.Command` for help with encoding messages, and please feel free to
+See `MIDISynth.Command` for help with encoding messages, and please feel free to
 add more.
 
 ## License
