@@ -11,6 +11,7 @@ defmodule MidiSynthTest do
     MidiSynth.midi(synth, <<0x80, 60, 127>>)
   end
 
+  @tag :requires_working_audio
   test "MidiSynth exits when port crashes" do
     Process.flag(:trap_exit, true)
 
