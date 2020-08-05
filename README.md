@@ -1,5 +1,8 @@
 # MIDISynth
 
+[![Hex version](https://img.shields.io/hexpm/v/midi_synth.svg "Hex version")](https://hex.pm/packages/midi_synth)
+[![CircleCI](https://circleci.com/gh/fhunleth/midi_synth.svg?style=svg)](https://circleci.com/gh/fhunleth/midi_synth)
+
 Play music in Elixir.
 
 ## Trying it out
