@@ -1,6 +1,10 @@
 defmodule MidiSynth.Keyboard do
   alias MidiSynth.Command
 
+  @moduledoc """
+  Simple keyboard functions for sending MIDI commands to the synthesizer
+  """
+
   @doc """
   Play a note
 

@@ -23,7 +23,8 @@ defmodule MidiSynth.MixProject do
       preferred_cli_env: %{
         docs: :docs,
         "hex.publish": :docs,
-        "hex.build": :docs
+        "hex.build": :docs,
+        credo: :test
       }
     ]
   end
@@ -59,7 +60,8 @@ defmodule MidiSynth.MixProject do
     [
       {:elixir_make, "~> 0.6", runtime: false},
       {:ex_doc, "~> 0.22", only: :docs, runtime: false},
-      {:dialyxir, "1.0.0", only: :dev, runtime: false}
+      {:dialyxir, "1.0.0", only: :dev, runtime: false},
+      {:credo, "~> 1.2", only: :test, runtime: false}
     ]
   end
 
