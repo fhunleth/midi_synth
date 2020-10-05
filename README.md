@@ -75,8 +75,8 @@ commands](https://www.midi.org/specifications/item/table-1-summary-of-midi-messa
 try this out:
 
 ```elixir
-iex> MIDISynth.midi(<<0x90, 60, 127>>)
-iex> MIDISynth.midi(<<0x80, 60, 127>>)
+iex> MIDISynth.midi(synth, <<0x90, 60, 127>>)
+iex> MIDISynth.midi(synth, <<0x80, 60, 127>>)
 ```
 
 See `MIDISynth.Command` for help with encoding messages, and please feel free to
