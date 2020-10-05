@@ -19,11 +19,11 @@ defmodule MIDISynth.Keyboard do
     iex> MIDISynth.Keyboard.play(synth, 60, 100, 80)
     :ok
   """
-  @spec play(GenServer.server(), Command.note(), Command.duration(), Command.velocity()) :: :ok
-  def play(server, note, duration, velocity \\ 127) do
-    MIDISynth.midi(server, Command.note_on(note, velocity))
+  @spec play(GenServer.server(), Command.note(), Command.duration(), Command.velocity(), Command.channel()) :: :ok
+  def play(server, note, duration, velocity \\ 127, channel \\ 0) do
+    MIDISynth.midi(server, Command.note_on(note, velocity, channel))
     Process.sleep(duration)
-    MIDISynth.midi(server, Command.note_off(note))
+    MIDISynth.midi(server, Command.note_off(note, channel))
   end
 
   @doc """
@@ -46,8 +46,8 @@ defmodule MIDISynth.Keyboard do
     iex> MIDISynth.Keyboard.play(synth, 60, 100)
     :ok
   """
-  @spec change_program(GenServer.server(), Command.program()) :: :ok
-  def change_program(server, prog) do
-    MIDISynth.midi(server, Command.change_program(prog))
+  @spec change_program(GenServer.server(), Command.program(), Command.channel()) :: :ok
+  def change_program(server, prog, channel \\ 0) do
+    MIDISynth.midi(server, Command.change_program(prog, channel))
   end
 end

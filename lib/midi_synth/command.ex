@@ -28,27 +28,30 @@ defmodule MIDISynth.Command do
   @typedoc "A MIDI program"
   @type program :: 1..128
 
+  @typedoc "The MIDI channel number"
+  @type channel :: 0..15
+
   @doc """
   Press a key down
   """
-  @spec note_on(note(), velocity()) :: binary()
-  def note_on(note, velocity) do
-    <<0x90, note, velocity>>
+  @spec note_on(note(), velocity(), channel()) :: binary()
+  def note_on(note, velocity, channel) do
+    <<0x90 + channel, note, velocity>>
   end
 
   @doc """
   Release a key
   """
-  @spec note_off(note()) :: binary()
-  def note_off(note) do
-    <<0x80, note, 64>>
+  @spec note_off(note(), channel()) :: binary()
+  def note_off(note, channel) do
+    <<0x80 + channel, note, 64>>
   end
 
   @doc """
   Change the current program (e.g., the current instrument).
   """
-  @spec change_program(program()) :: <<_::16>>
-  def change_program(prog) when prog > 0 and prog <= 128 do
-    <<0xC0, prog - 1>>
+  @spec change_program(program(), channel()) :: <<_::16>>
+  def change_program(prog, channel) when prog > 0 and prog <= 128 do
+    <<0xC0 + channel, prog - 1>>
   end
 end
