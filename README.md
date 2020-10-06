@@ -68,6 +68,13 @@ iex> MIDISynth.Keyboard.change_program(synth, 57)
 iex> MIDISynth.Keyboard.play(synth, 60, 500)
 ```
 
+Percussion instruments can be played only through MIDI channel 9.
+For example, this is how to play a cowbell sound:
+
+```elixir
+iex> MIDISynth.Keyboard.play(synth, 56, 0, 127, 9)
+```
+
 The real value of this library is the ability to send raw MIDI messages to the
 FluidSynth library. The Elixir code barely scratches the surface of what's
 possible. If you're comfortable with raw [MIDI
