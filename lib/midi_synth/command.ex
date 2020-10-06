@@ -32,7 +32,7 @@ defmodule MIDISynth.Command do
   @type channel :: 0..15
 
   @doc """
-  Press a key down
+  Turn a note in a channel on.
   """
   @spec note_on(channel(), note(), velocity()) :: binary()
   def note_on(channel, note, velocity) do
@@ -40,7 +40,7 @@ defmodule MIDISynth.Command do
   end
 
   @doc """
-  Release a key
+  Turn a note in a channel off.
   """
   @spec note_off(channel(), note()) :: binary()
   def note_off(channel, note) do
@@ -48,7 +48,15 @@ defmodule MIDISynth.Command do
   end
 
   @doc """
-  Change the current program (e.g., the current instrument).
+  Turn all active notes in a channel off.
+  """
+  @spec note_off_all(channel()) :: binary()
+  def note_off_all(channel) do
+    <<0xB::4, channel::4, 123, 0>>
+  end
+
+  @doc """
+  Change the current program (e.g. instrument) of a channel.
   """
   @spec change_program(channel(), program()) :: <<_::16>>
   def change_program(channel, prog) when prog > 0 and prog <= 128 do
