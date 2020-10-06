@@ -8,7 +8,7 @@
 #include <errno.h>
 #include <assert.h>
 
-//#define DEBUG
+// #define DEBUG
 #ifdef DEBUG
 #define debug(msg, ...) fprintf(stderr, msg "\r\n", __VA_ARGS__)
 #else
@@ -80,6 +80,7 @@ static void dispatch_control_change(const uint8_t *buffer)
         break;
     case 0x07: // Channel Volume
         debug("%d: channel volume %d", buffer[0] & 0x0f, buffer[2]);
+        fluid_synth_cc(synth, buffer[0] & 0x0f, buffer[1], buffer[2]);
         break;
     case 0x79: // Reset all controllers
         debug("%d: fluid_synth_system_reset", buffer[0] & 0x0f);
