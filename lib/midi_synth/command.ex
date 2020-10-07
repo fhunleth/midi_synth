@@ -81,6 +81,16 @@ defmodule MIDISynth.Command do
   end
 
   @doc """
+  Bend the pitch of notes playing in a channel.
+  Values below 0x2000 will decrease the pitch, and higher values will increase it.
+  """
+  @spec pitch_bend(channel(), integer()) :: binary()
+  def pitch_bend(channel, bend) when bend >= 0 and bend < 0x4000 do
+    <<msb::7, lsb::7>> = <<bend::14>>
+    <<0xE::4, channel::4, lsb, msb>>
+  end
+
+  @doc """
   Change the MIDI controller of a channel.
   """
   @spec change_control(channel(), int7(), int7()) :: binary()
