@@ -72,14 +72,19 @@ static void dispatch_aftertouch(const uint8_t *buffer)
 static void dispatch_control_change(const uint8_t *buffer)
 {
     switch (buffer[1]) {
-    case 0x00: // Bank select
-        debug("%d: bank select", buffer[0] & 0x0f);
+    case 0x00: // Bank select MSB
+        debug("%d: bank select MSB", buffer[0] & 0x0f);
+        fluid_synth_cc(synth, buffer[0] & 0x0f, buffer[1], buffer[2]);
         break;
     case 0x01: // Modulation wheel
         debug("%d: modulation wheel %d", buffer[0] & 0x0f, buffer[2]);
         break;
     case 0x07: // Channel Volume
         debug("%d: channel volume %d", buffer[0] & 0x0f, buffer[2]);
+        fluid_synth_cc(synth, buffer[0] & 0x0f, buffer[1], buffer[2]);
+        break;
+    case 0x20: // Bank select LSB
+        debug("%d: bank select LSB", buffer[0] & 0x0f);
         fluid_synth_cc(synth, buffer[0] & 0x0f, buffer[1], buffer[2]);
         break;
     case 0x79: // Reset all controllers

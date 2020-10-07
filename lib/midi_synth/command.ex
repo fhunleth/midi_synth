@@ -90,6 +90,13 @@ defmodule MIDISynth.Command do
     <<0xE::4, channel::4, lsb, msb>>
   end
 
+  def change_sound_bank(channel, bank) when bank >= 0 and bank < 0x4000 do
+    <<msb::7, lsb::7>> = <<bank::14>>
+    msb_binary = change_control(channel, 0, msb)
+    lsb_binary = change_control(channel, 0x20, lsb)
+    <<msb_binary::binary, lsb_binary::binary>>
+  end
+
   @doc """
   Change the MIDI controller of a channel.
   """
