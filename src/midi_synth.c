@@ -83,6 +83,10 @@ static void dispatch_control_change(const uint8_t *buffer)
         debug("%d: channel volume %d", buffer[0] & 0x0f, buffer[2]);
         fluid_synth_cc(synth, buffer[0] & 0x0f, buffer[1], buffer[2]);
         break;
+    case 0x0a: // Panoramic
+        debug("%d: panoramic %d", buffer[0] & 0x0f, buffer[2]);
+        fluid_synth_cc(synth, buffer[0] & 0x0f, buffer[1], buffer[2]);
+        break;
     case 0x20: // Bank select LSB
         debug("%d: bank select LSB", buffer[0] & 0x0f);
         fluid_synth_cc(synth, buffer[0] & 0x0f, buffer[1], buffer[2]);

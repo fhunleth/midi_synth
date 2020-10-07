@@ -90,6 +90,10 @@ defmodule MIDISynth.Command do
     <<0xE::4, channel::4, lsb, msb>>
   end
 
+  @doc """
+  Change the sound bank of a channel.
+  """
+  @spec change_sound_bank(channel(), integer()) :: binary()
   def change_sound_bank(channel, bank) when bank >= 0 and bank < 0x4000 do
     <<msb::7, lsb::7>> = <<bank::14>>
     msb_binary = change_control(channel, 0, msb)
@@ -98,7 +102,17 @@ defmodule MIDISynth.Command do
   end
 
   @doc """
-  Change the MIDI controller of a channel.
+  Change the panoramic (pan) of a channel.
+  This shifts the sound from the left or right ear in when playing stereo.
+  Values below 64 moves the sound to the left, and above to the right.
+  """
+  @spec pan(channel(), int7()) :: binary()
+  def pan(channel, pan) when is_int7(pan) do
+    change_control(channel, 10, pan)
+  end
+
+  @doc """
+  Change the MIDI controller value of a channel.
   """
   @spec change_control(channel(), int7(), int7()) :: binary()
   def change_control(channel, control_number, control_value \\ 0)
