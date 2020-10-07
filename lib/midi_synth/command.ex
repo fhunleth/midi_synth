@@ -3,6 +3,11 @@ defmodule MIDISynth.Command do
   Convert MIDI commands to raw bytes
   """
 
+  defguard is_int7(num) when num >= 0 and num <= 127
+
+  @typedoc "A 7-bit integer"
+  @type int7 :: 0..127
+
   @typedoc """
   A MIDI note
 
@@ -11,7 +16,7 @@ defmodule MIDISynth.Command do
 
   Middle C is 60
   """
-  @type note :: 0..127
+  @type note :: int7()
 
   @typedoc """
   The duration in milliseconds for which to hold down a note.
@@ -23,13 +28,16 @@ defmodule MIDISynth.Command do
 
   127 = maximum velocity
   """
-  @type velocity :: 0..127
+  @type velocity :: int7()
 
   @typedoc "A MIDI program"
-  @type program :: 1..128
+  @type program :: int7()
 
   @typedoc "A MIDI channel number"
   @type channel :: 0..15
+
+  @typedoc "A channel volume"
+  @type volume :: int7()
 
   @doc """
   Turn a note in a channel on.
@@ -48,18 +56,36 @@ defmodule MIDISynth.Command do
   end
 
   @doc """
+  Change the current program (e.g. instrument) of a channel.
+  """
+  @spec change_program(channel(), program()) :: <<_::16>>
+  def change_program(channel, prog) when is_int7(prog) do
+    <<0xC::4, channel::4, prog>>
+  end
+
+  @doc """
   Turn all active notes in a channel off.
   """
   @spec note_off_all(channel()) :: binary()
   def note_off_all(channel) do
-    <<0xB::4, channel::4, 123, 0>>
+    change_control(channel, 123)
   end
 
   @doc """
-  Change the current program (e.g. instrument) of a channel.
+  Change the volume of a MIDI channel.
+  This change is applied to all playing and future notes.
   """
-  @spec change_program(channel(), program()) :: <<_::16>>
-  def change_program(channel, prog) when prog > 0 and prog <= 128 do
-    <<0xC::4, channel::4, prog - 1>>
+  @spec change_volume(channel(), int7()) :: binary()
+  def change_volume(channel, volume) when is_int7(volume) do
+    change_control(channel, 7, volume)
+  end
+
+  @doc """
+  Change the MIDI controller of a channel.
+  """
+  @spec change_control(channel(), int7(), int7()) :: binary()
+  def change_control(channel, control_number, control_value \\ 0)
+      when is_int7(control_number) and is_int7(control_value) do
+    <<0xB::4, channel::4, control_number, control_value>>
   end
 end
