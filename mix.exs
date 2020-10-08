@@ -52,7 +52,10 @@ defmodule MIDISynth.MixProject do
         "CHANGELOG.md"
       ],
       licenses: ["Apache-2.0"],
-      links: %{"GitHub" => @source_url}
+      links: %{
+        "Changelog" => "#{@source_url}/blob/main/CHANGELOG.md",
+        "GitHub" => @source_url
+      }
     ]
   end
 
@@ -73,7 +76,7 @@ defmodule MIDISynth.MixProject do
 
   defp docs do
     [
-      extras: ["README.md", "CHANGELOG.md"],
+      extras: ["README.md", "CHANGELOG.md", "LICENSE"],
       main: "readme",
       source_ref: "v#{@version}",
       source_url: @source_url,
