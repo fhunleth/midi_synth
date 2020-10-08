@@ -3,7 +3,7 @@ defmodule MIDISynth.Command do
   Convert MIDI commands to raw bytes
   """
 
-  defguard is_int7(num) when num >= 0 and num <= 127
+  defguardp is_int7(num) when num >= 0 and num <= 127
 
   @typedoc "A 7-bit integer"
   @type int7 :: 0..127
