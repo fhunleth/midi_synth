@@ -19,7 +19,13 @@ defmodule MIDISynth.Keyboard do
     iex> MIDISynth.Keyboard.play(synth, 60, 100, 80)
     :ok
   """
-  @spec play(GenServer.server(), Command.note(), Command.duration(), Command.velocity(), Command.channel()) :: :ok
+  @spec play(
+          GenServer.server(),
+          Command.note(),
+          Command.duration(),
+          Command.velocity(),
+          Command.channel()
+        ) :: :ok
   def play(server, note, duration, velocity \\ 127, channel \\ 0) do
     MIDISynth.midi(server, Command.note_on(channel, note, velocity))
     Process.sleep(duration)
