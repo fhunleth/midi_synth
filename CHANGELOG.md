@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.4.0
+
+* New features
+  * Support specification of MIDI channels in `MIDISynth.Command`. This is a
+    backwards incompatible API change if you're using `MIDISynth.Command`. The
+    previous code hardcoded the channel to `0`.
+  * Several new commands were added to `MIDISynth.Command`.
+
+Thanks to Pim Kunis for these updates!
+
 ## 0.3.0
 
 This release updates the Elixir and `make` code to fix many issues. The library

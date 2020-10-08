@@ -25,7 +25,7 @@ Next, either clone this library or pull it in as a dependency to your Elixir
 project. The following is an example of the dependency for your `mix.exs`:
 
 ```elixir
-  {:midi_synth, "~> 0.3"}
+  {:midi_synth, "~> 0.4.0"}
 ```
 
 Fetch dependencies and build as you normally would. The first build will
