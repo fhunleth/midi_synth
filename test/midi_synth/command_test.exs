@@ -13,6 +13,6 @@ defmodule MIDISynth.CommandTest do
   end
 
   test "change program" do
-    assert <<0xC0, 9>> == Command.change_program(0, 10)
+    assert <<0xC0, 10>> == Command.change_program(0, 10)
   end
 end
