@@ -42,7 +42,7 @@ defmodule MIDISynth.Command do
   @doc """
   Turn a note in a channel on.
   """
-  @spec note_on(channel(), note(), velocity()) :: binary()
+  @spec note_on(channel(), note(), velocity()) :: <<_::24>>
   def note_on(channel, note, velocity) do
     <<0x9::4, channel::4, note, velocity>>
   end
@@ -50,7 +50,7 @@ defmodule MIDISynth.Command do
   @doc """
   Turn a note in a channel off.
   """
-  @spec note_off(channel(), note()) :: binary()
+  @spec note_off(channel(), note()) :: <<_::24>>
   def note_off(channel, note) do
     <<0x8::4, channel::4, note, 64>>
   end
@@ -66,7 +66,7 @@ defmodule MIDISynth.Command do
   @doc """
   Turn all active notes in a channel off.
   """
-  @spec note_off_all(channel()) :: binary()
+  @spec note_off_all(channel()) :: <<_::24>>
   def note_off_all(channel) do
     change_control(channel, 123)
   end
@@ -75,7 +75,7 @@ defmodule MIDISynth.Command do
   Change the volume of a MIDI channel.
   This change is applied to all playing and future notes.
   """
-  @spec change_volume(channel(), int7()) :: binary()
+  @spec change_volume(channel(), int7()) :: <<_::24>>
   def change_volume(channel, volume) when is_int7(volume) do
     change_control(channel, 7, volume)
   end
@@ -84,7 +84,7 @@ defmodule MIDISynth.Command do
   Bend the pitch of notes playing in a channel.
   Values below 0x2000 will decrease the pitch, and higher values will increase it.
   """
-  @spec pitch_bend(channel(), integer()) :: binary()
+  @spec pitch_bend(channel(), integer()) :: <<_::24>>
   def pitch_bend(channel, bend) when bend >= 0 and bend < 0x4000 do
     <<msb::7, lsb::7>> = <<bend::14>>
     <<0xE::4, channel::4, lsb, msb>>
@@ -93,7 +93,7 @@ defmodule MIDISynth.Command do
   @doc """
   Change the sound bank of a channel.
   """
-  @spec change_sound_bank(channel(), integer()) :: binary()
+  @spec change_sound_bank(channel(), integer()) :: <<_::48>>
   def change_sound_bank(channel, bank) when bank >= 0 and bank < 0x4000 do
     <<msb::7, lsb::7>> = <<bank::14>>
     msb_binary = change_control(channel, 0, msb)
@@ -106,7 +106,7 @@ defmodule MIDISynth.Command do
   This shifts the sound from the left or right ear in when playing stereo.
   Values below 64 moves the sound to the left, and above to the right.
   """
-  @spec pan(channel(), int7()) :: binary()
+  @spec pan(channel(), int7()) :: <<_::24>>
   def pan(channel, pan) when is_int7(pan) do
     change_control(channel, 10, pan)
   end
@@ -114,7 +114,7 @@ defmodule MIDISynth.Command do
   @doc """
   Change the MIDI controller value of a channel.
   """
-  @spec change_control(channel(), int7(), int7()) :: binary()
+  @spec change_control(channel(), int7(), int7()) :: <<_::24>>
   def change_control(channel, control_number, control_value \\ 0)
       when is_int7(control_number) and is_int7(control_value) do
     <<0xB::4, channel::4, control_number, control_value>>
