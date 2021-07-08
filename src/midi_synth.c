@@ -17,6 +17,11 @@
 
 #if defined (__linux__)
 #define OVERRIDE_AUDIO_DRIVER "pulseaudio"
+#else
+#if defined (__APPLE__)
+// Homebrew's build of fluidsynth uses portaudio instead of coreaudio
+#define OVERRIDE_AUDIO_DRIVER "portaudio"
+#endif
 #endif
 
 enum midi_parser_state {
