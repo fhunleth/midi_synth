@@ -25,7 +25,8 @@ ifeq ($(OS),Windows_NT)
 EXEEXT=.exe
 else
 # Non-Windows
-LDFLAGS += -lfluidsynth
+CFLAGS += $(shell pkg-config --cflags fluidsynth)
+LDFLAGS += $(shell pkg-config --libs fluidsynth)
 endif
 
 SOUND_FONT_FILE = FluidR3_GM.sf2
