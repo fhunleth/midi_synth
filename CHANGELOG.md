@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.1
+
+* Bug fixes
+  * Fix compilation issues on OSX and make OSX default audio device `portaudio`.
+    The `coreaudio` default isn't working and Homebrew installs portaudio with
+    fluidsynth.
+
 ## 0.4.0
 
 * New features
