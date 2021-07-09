@@ -14,6 +14,7 @@ defmodule MIDISynth.MixProject do
       aliases: [format: ["format", &format_c/1]],
       make_targets: ["all"],
       make_clean: ["clean"],
+      make_error_message: make_error_message(),
       docs: docs(),
       description: description(),
       start_permanent: Mix.env() == :prod,
@@ -95,4 +96,18 @@ defmodule MIDISynth.MixProject do
   end
 
   defp format_c(_args), do: true
+
+  defp make_error_message() do
+    """
+    This is usually due to not being able to find the fluidsynth library. Try
+    installing it and then rerun the build to see if that fixes the error.
+
+    On OSX, run `brew install fluidsynth`.
+
+    On Ubuntu, try `sudo apt install libfluidsynth-dev`
+
+    If this does not fix the issue, the C compiler error message right above
+    this help text may provide a clue.
+    """
+  end
 end
