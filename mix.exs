@@ -43,8 +43,8 @@ defmodule MIDISynth.MixProject do
     [
       files: [
         "lib",
-        "src/*.[ch]",
-        "src/Makefile",
+        "c_src/*.[ch]",
+        "c_src/Makefile",
         "Makefile",
         "mix.exs",
         "README.md",
@@ -91,7 +91,7 @@ defmodule MIDISynth.MixProject do
         Could not format C code since astyle is not available.
         """)
 
-    System.cmd(astyle, ["-n", "src/*.c"], into: IO.stream(:stdio, :line))
+    System.cmd(astyle, ["-n", "c_src/*.c"], into: IO.stream(:stdio, :line))
   end
 
   defp format_c(_args), do: true
