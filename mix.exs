@@ -101,7 +101,7 @@ defmodule MIDISynth.MixProject do
     This is usually due to not being able to find the fluidsynth library. Try
     installing it and then rerun the build to see if that fixes the error.
 
-    On OSX, run `brew install fluidsynth`.
+    On MacOS, run `brew install fluidsynth pkg-config`.
 
     On Ubuntu, try `sudo apt install libfluidsynth-dev`
 

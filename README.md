@@ -18,10 +18,10 @@ On Linux:
 sudo apt install libfluidsynth-dev
 ```
 
-On OSX:
+On MacOS:
 
 ```sh
-brew install fluidsynth
+brew install fluidsynth pkg-config
 ```
 
 Next, either clone this library or pull it in as a dependency to your Elixir
@@ -36,6 +36,10 @@ download the `FluidR3_GM.sf2` soundfont file. This is a Creative
 Commons-licensed data file that contains all of the
 [General MIDI](https://en.wikipedia.org/wiki/General_MIDI) instruments. It is a
 good place to start, but can be changed later on.
+
+IMPORTANT: If `midi_synth` has a compiler error on MacOS, it is likely that it
+is due to an error in a pkg-config file referred to by `fluidsynth.pc`. To fix,
+edit `/opt/homebrew/lib/pkgconfig/fluidsynth.pc` and remove the word "readline".
 
 ## Try it out using IEx
 
