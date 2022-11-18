@@ -18,7 +18,6 @@ defmodule MIDISynth.MixProject do
       docs: docs(),
       description: description(),
       start_permanent: Mix.env() == :prod,
-      build_embedded: true,
       dialyzer: dialyzer(),
       deps: deps(),
       preferred_cli_env: %{
