@@ -64,7 +64,8 @@ defmodule MIDISynth.MixProject do
       {:elixir_make, "~> 0.6", runtime: false},
       {:ex_doc, "~> 0.22", only: :docs, runtime: false},
       {:dialyxir, "~> 1.2", only: :dev, runtime: false},
-      {:credo, "~> 1.2", only: :test, runtime: false}
+      {:credo, "~> 1.2", only: :test, runtime: false},
+      {:credo_binary_patterns, "~> 0.2.6", only: :test, runtime: false}
     ]
   end
 
