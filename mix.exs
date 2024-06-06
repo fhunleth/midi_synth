@@ -8,7 +8,7 @@ defmodule MIDISynth.MixProject do
     [
       app: :midi_synth,
       version: @version,
-      elixir: "~> 1.6",
+      elixir: "~> 1.11",
       package: package(),
       compilers: [:elixir_make | Mix.compilers()],
       aliases: [format: ["format", &format_c/1]],
