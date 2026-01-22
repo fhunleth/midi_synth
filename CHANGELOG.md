@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.2
+
+This fixes very minor issues from a pass on all of the libraries I maintain so
+that it compiles without warnings and is easier to support.
+
 ## 0.4.1
 
 * Bug fixes
