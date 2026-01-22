@@ -19,14 +19,12 @@ defmodule MIDISynth.MixProject do
       description: description(),
       start_permanent: Mix.env() == :prod,
       dialyzer: dialyzer(),
-      deps: deps(),
-      preferred_cli_env: %{
-        docs: :docs,
-        "hex.publish": :docs,
-        "hex.build": :docs,
-        credo: :test
-      }
+      deps: deps()
     ]
+  end
+
+  def cli do
+    [preferred_envs: %{docs: :docs, "hex.publish": :docs, "hex.build": :docs, credo: :test}]
   end
 
   def application do
